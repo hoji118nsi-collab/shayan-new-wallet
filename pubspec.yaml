@@ -20,7 +20,7 @@ dependencies:
   table_calendar: ^3.0.9
   persian_datetime_picker: ^3.2.0
   fluttertoast: ^9.0.0
-  assets_audio_player: ^3.1.1   # فعلاً کامنت شد برای تست
+  assets_audio_player: ^3.1.1   # نسخه پایدار فعال
 
 dev_dependencies:
   flutter_test:
@@ -48,4 +48,3 @@ flutter_icons:
   android: true
   ios: false
   image_path: "assets/icons/app_icon.png"
-
