@@ -1,0 +1,50 @@
+name: Build Flutter APK
+
+on:
+  workflow_dispatch:   # اجرای دستی
+  push:
+    branches:
+      - main           # برنچی که کد روشه
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. کلون کردن ریپو
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      # 2. نصب Flutter با نسخه مناسب Dart >=3.6
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.4'
+
+      # 3. غیر فعال کردن analytics
+      - name: Disable Flutter analytics
+        run: flutter config --no-analytics
+
+      # 4. ارتقا Flutter و بررسی وضعیت
+      - name: Force upgrade Flutter
+        run: flutter upgrade
+
+      - name: Flutter doctor
+        run: flutter doctor
+
+      # 5. پاکسازی بیلدهای قبلی و نصب dependencies
+      - name: Clean previous builds and get dependencies
+        run: |
+          flutter clean
+          flutter pub get
+
+      # 6. بیلد APK با V2 embedding
+      - name: Build APK
+        run: flutter build apk --release
+
+      # 7. ذخیره خروجی APK
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: shayan_wallet-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
