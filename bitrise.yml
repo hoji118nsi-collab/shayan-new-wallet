@@ -1,0 +1,28 @@
+format_version: '11'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: flutter
+
+app:
+  envs:
+    - FLUTTER_CHANNEL: stable
+    - FLUTTER_VERSION: latest
+    - ANDROID_HOME: /opt/android-sdk-linux
+
+workflows:
+  primary:
+    steps:
+      - git-clone@6: {}
+      - flutter-install@0:
+          inputs:
+            channel: "$FLUTTER_CHANNEL"
+            version: "$FLUTTER_VERSION"
+      - flutter-pub-get@0: {}
+      - flutter-build@0:
+          inputs:
+            platform: android
+            build_mode: release
+            build_apk: 'true'
+            build_aab: 'false'
+      - deploy-to-bitrise-io@2:
+          inputs:
+            deploy_path: "$BITRISE_DEPLOY_DIR/*.apk"

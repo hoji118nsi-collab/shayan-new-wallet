@@ -1,0 +1,4 @@
+// فایل settings.gradle
+
+rootProject.name = 'shayan_wallet' // این نام پروژه شماست، اگر اسم واقعی متفاوت است آن را جایگزین کنید
+include ':app'
